@@ -1,8 +1,8 @@
 from typing import Optional
-from pydantic import BaseModel
+from utils.params import Params
 
 
-class AllActivityInput(BaseModel):
+class AllActivityParams(Params):
     includeMetadata: bool = False
     limit: int = 20
     continuation: Optional[str] = None
