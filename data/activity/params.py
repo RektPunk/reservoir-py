@@ -42,7 +42,7 @@ class UserActivityParams(Params):
     def types_validator(cls, v):
         if isinstance(v, str):
             v = [v]
-        if all([a in TypesEnum for a in v]):
+        if all([TypesEnum.has_value(a) for a in v]):
             return v
         else:
             raise ValueError("types not in TypesEnum")
@@ -60,7 +60,7 @@ class TokenActivityParams(Params):
     def types_validator(cls, v):
         if isinstance(v, str):
             v = [v]
-        if all([a in TypesEnum for a in v]):
+        if all([TypesEnum.has_value(a) for a in v]):
             return v
         else:
             raise ValueError("types not in TypesEnum")
