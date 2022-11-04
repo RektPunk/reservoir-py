@@ -1,7 +1,8 @@
 from typing import Optional, List, Union
 from pydantic import validator
 from utils.metadata.params import Params
-from utils.variables import SortByEnum, TypesEnum
+from utils.variables import ActivitySortByEnum, ActivityTypesEnum
+from utils.validators import string_to_list_validator, has_value_validator
 
 
 class AllActivityParams(Params):
@@ -15,7 +16,7 @@ class CollectionActivityParams(Params):
     collectionsSetId: str = None
     community: str = None
     limit: int = 20
-    sortBy: str = SortByEnum.eventTimestamp.value
+    sortBy: str = ActivitySortByEnum.eventTimestamp.value
     includeMetadata: bool = True
     continuation: Optional[str] = None
 
@@ -26,41 +27,30 @@ class UserActivityParams(Params):
     collectionsSetId: str = None
     community: str = None
     limit: int = 20
-    sortBy: str = SortByEnum.eventTimestamp.value
+    sortBy: str = ActivitySortByEnum.eventTimestamp.value
     includeMetadata: bool = True
-    types: Union[str, List[str]] = TypesEnum.sale.value
+    types: Union[str, List[str]] = ActivityTypesEnum.sale.value
     continuation: Optional[str] = None
 
     @validator("users")
     def users_validator(cls, v):
-        if isinstance(v, str):
-            return [v]
-        elif isinstance(v, list):
-            return v
+        return string_to_list_validator(v)
 
     @validator("types")
     def types_validator(cls, v):
-        if isinstance(v, str):
-            v = [v]
-        if all([TypesEnum.has_value(a) for a in v]):
-            return v
-        else:
-            raise ValueError("types not in TypesEnum")
+        _v = string_to_list_validator(v)
+        return has_value_validator(_v, ActivityTypesEnum)
 
 
 class TokenActivityParams(Params):
     token: str
     limit: int = 20
-    sortBy: str = SortByEnum.eventTimestamp.value
+    sortBy: str = ActivitySortByEnum.eventTimestamp.value
     includeMetadata: bool = True
-    types: Union[str, List[str]] = TypesEnum.sale.value
+    types: Union[str, List[str]] = ActivityTypesEnum.sale.value
     continuation: Optional[str] = None
 
     @validator("types")
     def types_validator(cls, v):
-        if isinstance(v, str):
-            v = [v]
-        if all([TypesEnum.has_value(a) for a in v]):
-            return v
-        else:
-            raise ValueError("types not in TypesEnum")
+        _v = string_to_list_validator(v)
+        return has_value_validator(_v, ActivityTypesEnum)

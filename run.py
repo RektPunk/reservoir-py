@@ -5,7 +5,18 @@ from data.activity import (
     UserActivityParams,
     TokenActivityParams,
 )
+from data.attributes import (
+    AttributesEndpoint,
+    AllAttributesParams,
+    AllAttributesTokenIdsParams,
+    ExploreAttributesParams,
+)
 from utils.response import get_response
+
+
+TEST_COLLECTION = "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb"
+TEST_USER = "0xef764bac8a438e7e498c2e5fccf0f174c3e3f8db"
+TEST_TOKEN = "9998"
 
 
 all_activity_params = AllActivityParams()
@@ -14,9 +25,7 @@ all_activity_response = get_response(
     params=all_activity_params,
 )
 
-collection_activity_params = CollectionActivityParams(
-    collection="0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"
-)
+collection_activity_params = CollectionActivityParams(collection=TEST_COLLECTION)
 collection_activity_response = get_response(
     url=ActivityEndpoint.COLLECTION_ACTIVITY.value,
     params=collection_activity_params,
@@ -24,7 +33,7 @@ collection_activity_response = get_response(
 
 
 user_activity_params = UserActivityParams(
-    users="0x2e50b23af9a31c1f56e0434bedeb35cd41b8df41",
+    users=TEST_USER,
     types=["sale", "transfer"],
 )
 user_activity_response = get_response(
@@ -34,10 +43,35 @@ user_activity_response = get_response(
 
 
 token_activity_params = TokenActivityParams(
-    token="0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb:4999",
+    token=f"{TEST_COLLECTION}:{TEST_TOKEN}",
     types=["sale", "transfer"],
 )
 token_activity_response = get_response(
     url=ActivityEndpoint.TOKEN_ACTIVITY.value,
     params=token_activity_params,
+)
+
+
+all_attributes_params = AllAttributesParams(collection=TEST_COLLECTION)
+all_attributes_response = get_response(
+    url=AttributesEndpoint.ALL_ATTRIBUTES.value, params=all_attributes_params
+)
+
+
+all_attributes_token_ids_params = AllAttributesTokenIdsParams(
+    collection=TEST_COLLECTION
+)
+all_attributes_token_ids_response = get_response(
+    url=AttributesEndpoint.ALL_ATTRIBUTES_TOKEN_IDS.value,
+    params=all_attributes_token_ids_params,
+)
+
+
+explore_attributes_params = ExploreAttributesParams(
+    collection=TEST_COLLECTION,
+)
+
+explore_attributes_response = get_response(
+    url=AttributesEndpoint.EXPLORE_ATTRIBUTES.value,
+    params=explore_attributes_params,
 )
