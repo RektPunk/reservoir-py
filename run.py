@@ -24,7 +24,8 @@ collection_activity_response = get_response(
 
 
 user_activity_params = UserActivityParams(
-    users="0x2E50b23Af9a31C1f56E0434beDeB35cd41b8DF41", types=["sale", "transfer"]
+    users="0x2e50b23af9a31c1f56e0434bedeb35cd41b8df41",
+    types=["sale", "transfer"],
 )
 user_activity_response = get_response(
     url=ActivityEndpoint.USER_ACTIVITY.value,
