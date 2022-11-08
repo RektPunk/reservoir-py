@@ -1,4 +1,4 @@
-from pydantic import validator
+from pydantic import validator, conint
 from utils.metadata.params import Params
 from utils.variables import AttributesSortByEnum
 from utils.validators import has_value_validator
@@ -16,11 +16,11 @@ class ExploreAttributesParams(Params):
     collection: str
     includeTopBid: bool = False
     attributeKey: str = None
-    maxFloorAskPrices: int = 1
-    maxLastSells: int = 0
+    maxFloorAskPrices: conint(ge=1, le=20) = 1
+    maxLastSells: conint(ge=0, le=20) = 0
     sortBy: str = AttributesSortByEnum.floorAskPrice.value
-    offset: int = 0
-    limit: int = 20
+    offset: conint(ge=0, le=10000) = 0
+    limit: conint(ge=1, le=5000) = 20
 
     @validator("sortBy")
     def sortby_validator(cls, v):
