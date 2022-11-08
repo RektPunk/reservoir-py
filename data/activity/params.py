@@ -1,13 +1,17 @@
 from typing import Optional, List, Union
-from pydantic import validator
+from pydantic import conint, validator
 from utils.metadata.params import Params
 from utils.variables import ActivitySortByEnum, ActivityTypesEnum
-from utils.validators import string_to_list_validator, has_value_validator
+from utils.validators import (
+    string_to_list_validator,
+    has_value_validator,
+    activity_limit_validator,
+)
 
 
 class AllActivityParams(Params):
     includeMetadata: bool = False
-    limit: int = 20
+    limit: conint(ge=1, le=1000) = 20
     continuation: Optional[str] = None
 
 
@@ -15,10 +19,18 @@ class CollectionActivityParams(Params):
     collection: str
     collectionsSetId: str = None
     community: str = None
-    limit: int = 20
     sortBy: str = ActivitySortByEnum.eventTimestamp.value
     includeMetadata: bool = True
     continuation: Optional[str] = None
+    limit: int = 20
+
+    @validator("sortBy")
+    def sortby_validator(cls, v):
+        return has_value_validator(v, ActivitySortByEnum)
+
+    @validator("limit")
+    def limit_validator(cls, v, values):
+        return activity_limit_validator(v, values)
 
 
 class UserActivityParams(Params):
@@ -26,7 +38,7 @@ class UserActivityParams(Params):
     collection: str = None
     collectionsSetId: str = None
     community: str = None
-    limit: int = 20
+    limit: conint(ge=1, le=200) = 20
     sortBy: str = ActivitySortByEnum.eventTimestamp.value
     includeMetadata: bool = True
     types: Union[str, List[str]] = ActivityTypesEnum.sale.value
@@ -36,6 +48,10 @@ class UserActivityParams(Params):
     def users_validator(cls, v):
         return string_to_list_validator(v)
 
+    @validator("sortBy")
+    def sortby_validator(cls, v):
+        return has_value_validator(v, ActivitySortByEnum)
+
     @validator("types")
     def types_validator(cls, v):
         _v = string_to_list_validator(v)
@@ -44,11 +60,15 @@ class UserActivityParams(Params):
 
 class TokenActivityParams(Params):
     token: str
-    limit: int = 20
+    limit: conint(ge=1, le=20) = 20
     sortBy: str = ActivitySortByEnum.eventTimestamp.value
     includeMetadata: bool = True
     types: Union[str, List[str]] = ActivityTypesEnum.sale.value
     continuation: Optional[str] = None
+
+    @validator("sortBy")
+    def sortby_validator(cls, v):
+        return has_value_validator(v, ActivitySortByEnum)
 
     @validator("types")
     def types_validator(cls, v):
