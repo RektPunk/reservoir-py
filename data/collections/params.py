@@ -2,7 +2,11 @@ from typing import Union, List
 from pydantic import conint, validator
 from utils.metadata.params import Params
 from utils.enum_variables import CollcectionsSortByEnum
-from utils.validators import string_to_list_validator, has_value_validator
+from utils.validators import (
+    string_to_list_validator,
+    has_value_validator,
+    contract_id_validator,
+)
 
 
 class CollectionsParams(Params):
@@ -20,8 +24,9 @@ class CollectionsParams(Params):
     continuation: str = None
 
     @validator("contract")
-    def users_validator(cls, v):
-        return string_to_list_validator(v)
+    def users_validator(cls, v, values):
+        _v = contract_id_validator(v, values)
+        return string_to_list_validator(_v)
 
     @validator("sortBy")
     def sortby_validator(cls, v):

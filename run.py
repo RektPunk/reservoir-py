@@ -25,7 +25,6 @@ TEST_COLLECTION = "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb"
 TEST_USER = "0xef764bac8a438e7e498c2e5fccf0f174c3e3f8db"
 TEST_TOKEN = "9998"
 
-
 all_activity_params = AllActivityParams()
 all_activity_response = get_response(
     url=ActivityEndpoint.ALL_ACTIVITY.value,
@@ -82,11 +81,14 @@ explore_attributes_response = get_response(
     params=explore_attributes_params,
 )
 
-collections_params = CollectionsParams()
+collections_params = CollectionsParams(
+    id=TEST_COLLECTION,
+)
 collections_response = get_response(
     url=CollectionsEndpoint.COLLECTIONS.value,
     params=collections_params,
 )
+
 collections_source_stats_params = CollectionSourceStatsParams(
     collection=TEST_COLLECTION,
 )
