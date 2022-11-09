@@ -5,7 +5,7 @@ from utils.enum_variables import CollcectionsSortByEnum
 from utils.validators import (
     string_to_list_validator,
     has_value_validator,
-    contract_id_validator,
+    contract_conflict_validator,
 )
 
 
@@ -24,9 +24,9 @@ class CollectionsParams(Params):
     continuation: str = None
 
     @validator("contract")
-    def users_validator(cls, v, values):
-        _v = contract_id_validator(v, values)
-        return string_to_list_validator(_v)
+    def contract_validator(cls, v, values):
+        _v = string_to_list_validator(v)
+        return contract_conflict_validator(_v, values, key="id")
 
     @validator("sortBy")
     def sortby_validator(cls, v):

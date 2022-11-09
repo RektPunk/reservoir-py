@@ -39,9 +39,9 @@ def activity_limit_validator(v, values):
         raise ValueError(f"limit not in {_ge} and {_le}")
 
 
-def contract_id_validator(v, values):
-    _id = values["id"]
-    if _id is not None and v is not None:
-        raise ValueError("id and contract conflict")
+def contract_conflict_validator(v, values, key: str):
+    _key = values[key]
+    if isinstance(v, list) and _key in v:
+        raise ValueError(f"{key} and contract conflict")
     else:
         return v
