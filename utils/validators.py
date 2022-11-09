@@ -1,16 +1,5 @@
 from utils.enum_variables import HasValueEnum
-
-
-ACTIVITY_LIMIT_RANGE_INCLUDE_METADATA = {
-    True: {
-        "ge": 1,
-        "le": 20,
-    },
-    False: {
-        "ge": 1,
-        "le": 1000,
-    },
-}
+from utils.variables import ACTIVITY_LIMIT_RANGE_INCLUDE_METADATA
 
 
 def string_to_list_validator(v):
@@ -22,11 +11,15 @@ def string_to_list_validator(v):
 
 def has_value_validator(v, enum: HasValueEnum):
     if isinstance(v, str):
-        v = [v]
-    if all([enum.has_value(a) for a in v]):
-        return v
-    else:
-        raise ValueError(f"input not in {enum._member_names_}")
+        if enum.has_value(v):
+            return v
+        else:
+            raise ValueError(f"input not in {enum._member_names_}")
+    elif isinstance(v, list):
+        if all([enum.has_value(_) for _ in v]):
+            return v
+        else:
+            raise ValueError(f"input not in {enum._member_names_}")
 
 
 def activity_limit_validator(v, values):
