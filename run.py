@@ -11,6 +11,13 @@ from data.attributes import (
     AllAttributesTokenIdsParams,
     ExploreAttributesParams,
 )
+from data.collections import (
+    CollectionsEndpoint,
+    CollectionsParams,
+    CollectionSourceStatsParams,
+    SearchCollectionsParams,
+    UserCollectionsParams,
+)
 from utils.response import get_response
 
 
@@ -70,8 +77,34 @@ all_attributes_token_ids_response = get_response(
 explore_attributes_params = ExploreAttributesParams(
     collection=TEST_COLLECTION,
 )
-
 explore_attributes_response = get_response(
     url=AttributesEndpoint.EXPLORE_ATTRIBUTES.value,
     params=explore_attributes_params,
+)
+
+collections_params = CollectionsParams()
+collections_response = get_response(
+    url=CollectionsEndpoint.COLLECTIONS.value,
+    params=collections_params,
+)
+collections_source_stats_params = CollectionSourceStatsParams(
+    collection=TEST_COLLECTION,
+)
+collections_source_stats_response = get_response(
+    url=CollectionsEndpoint.COLLECTIONS_SOURCE_STATS.value,
+    params=collections_source_stats_params,
+)
+
+search_collections_params = SearchCollectionsParams()
+search_collections_response = get_response(
+    url=CollectionsEndpoint.SEARCH_COLLECTIONS.value,
+    params=search_collections_params,
+)
+
+user_collections_params = UserCollectionsParams(
+    user=TEST_USER,
+)
+
+user_collections_response = get_response(
+    url=CollectionsEndpoint.USER_COLLECTIONS.value, params=user_collections_params
 )
