@@ -1,11 +1,11 @@
 from typing import Union, List
-from pydantic import conint, validator
+from pydantic import conint, validator, root_validator
 from utils.metadata.params import Params
 from utils.enum_variables import CollcectionsSortByEnum
 from utils.validators import (
     string_to_list_validator,
     has_value_validator,
-    contract_conflict_validator,
+    conflict_validator,
 )
 
 
@@ -23,14 +23,20 @@ class CollectionsParams(Params):
     limit: conint(ge=1, le=20) = 20
     continuation: str = None
 
-    @validator("contract")
-    def contract_validator(cls, v, values):
-        _v = string_to_list_validator(v)
-        return contract_conflict_validator(_v, values, key="id")
-
     @validator("sortBy")
     def sortby_validator(cls, v):
         return has_value_validator(v, CollcectionsSortByEnum)
+
+    @validator("contract")
+    def contract_validator(cls, v):
+        return string_to_list_validator(v)
+
+    @root_validator
+    def id_contract_validator(cls, values):
+        return conflict_validator(
+            values,
+            keys=["id", "slug", "collectionSetId", "community", "contract", "name"],
+        )
 
 
 class CollectionSourceStatsParams(Params):
