@@ -1,6 +1,6 @@
 from pydantic import validator, conint
 from utils.metadata.params import Params
-from utils.variables import AttributesSortByEnum
+from utils.enum_variables import AttributesSortByEnum
 from utils.validators import has_value_validator
 
 

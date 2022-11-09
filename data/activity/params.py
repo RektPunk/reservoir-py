@@ -1,7 +1,7 @@
 from typing import Optional, List, Union
 from pydantic import conint, validator
 from utils.metadata.params import Params
-from utils.variables import ActivitySortByEnum, ActivityTypesEnum
+from utils.enum_variables import ActivitySortByEnum, ActivityTypesEnum
 from utils.validators import (
     string_to_list_validator,
     has_value_validator,

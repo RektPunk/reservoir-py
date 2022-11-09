@@ -1,4 +1,4 @@
-from utils.variables import HasValueEnum
+from utils.enum_variables import HasValueEnum
 
 
 class ActivityEndpoint(HasValueEnum):
