@@ -34,3 +34,8 @@ class CollcectionsSortByEnum(HasValueEnum):
     allTimeVolume: str = "allTimeVolume"
     createdAt: str = "createdAt"
     floorAskPrice: str = "floorAskPrice"
+
+
+class EventsSortDirectionEnum(HasValueEnum):
+    asc: str = "asc"
+    desc: str = "desc"
