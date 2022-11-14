@@ -33,6 +33,7 @@ TEST_COLLECTION = "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb"
 TEST_USER = "0xef764bac8a438e7e498c2e5fccf0f174c3e3f8db"
 TEST_TOKEN = "9998"
 
+
 all_activity_params = AllActivityParams()
 all_activity_response = get_response(
     url=ActivityEndpoint.ALL_ACTIVITY.value,
@@ -117,4 +118,14 @@ user_collections_params = UserCollectionsParams(
 
 user_collections_response = get_response(
     url=CollectionsEndpoint.USER_COLLECTIONS.value, params=user_collections_params
+)
+
+
+sales_params = SalesParams(
+    collection=TEST_COLLECTION,
+)
+
+sales_response = get_response(
+    url=SalesEndpoint.SALES.value,
+    params=sales_params,
 )

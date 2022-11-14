@@ -26,5 +26,5 @@ class SalesParams(Params):
     @root_validator
     def mutual_conflict_validator(cls, values):
         return conflict_validator(
-            values, keys=["collection", "collectionsSetId", "community"]
+            values, keys=["collection", "contract", "token", "txHash"]
         )
