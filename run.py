@@ -21,7 +21,7 @@ from data.collections import (
 from data.events import (
     EventsEndpoint,
     AsksStatusChangesParams,
-    BidsStatusChangesParams,
+    BidStatusChangesParams,
     CollectionFloorChangesParams,
     CollectionTopBidChangesParams,
 )
@@ -32,7 +32,6 @@ from utils.response import get_response
 TEST_COLLECTION = "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb"
 TEST_USER = "0xef764bac8a438e7e498c2e5fccf0f174c3e3f8db"
 TEST_TOKEN = "9998"
-
 
 all_activity_params = AllActivityParams()
 all_activity_response = get_response(
@@ -128,4 +127,36 @@ sales_params = SalesParams(
 sales_response = get_response(
     url=SalesEndpoint.SALES.value,
     params=sales_params,
+)
+
+asks_status_changes_params = AsksStatusChangesParams(contract=TEST_COLLECTION)
+
+asks_status_changes_response = get_response(
+    url=EventsEndpoint.ASKS_STATUS_CHANGES.value,
+    params=asks_status_changes_params,
+)
+
+bid_status_changes_params = BidStatusChangesParams(contract=TEST_COLLECTION)
+
+bid_status_changes_response = get_response(
+    url=EventsEndpoint.BID_STATUS_CHANGES.value,
+    params=bid_status_changes_params,
+)
+
+collection_floor_changes_params = CollectionFloorChangesParams(
+    collection=TEST_COLLECTION
+)
+
+collection_floor_changes_response = get_response(
+    url=EventsEndpoint.COLLECTION_FLOOR_CHANGES.value,
+    params=collection_floor_changes_params,
+)
+
+collection_top_bid_changes_params = CollectionTopBidChangesParams(
+    collection=TEST_COLLECTION
+)
+
+collection_top_bid_changes_response = get_response(
+    url=EventsEndpoint.COLLECTION_TOP_BID_CHANGES.value,
+    params=collection_top_bid_changes_params,
 )

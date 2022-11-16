@@ -20,7 +20,7 @@ class AsksStatusChangesParams(Params):
         return has_value_validator(v, EventsSortDirectionEnum)
 
 
-class BidsStatusChangesParams(Params):
+class BidStatusChangesParams(Params):
     contract: str = None
     startTimestamp: float = None
     endTimestamp: float = None
