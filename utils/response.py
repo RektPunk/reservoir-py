@@ -1,9 +1,10 @@
+from typing import Callable, List
 import requests
 from data.activity.endpoint import ActivityEndpoint
 from data.attributes.endpoint import AttributesEndpoint
 from data.collections.endpoint import CollectionsEndpoint
 from utils.metadata.params import Params
-from utils.variables import HEADERS
+from utils.variables import HEADERS, CONTINUATION
 
 
 def _transform_url(url: str, params: Params):
@@ -29,3 +30,28 @@ def get_response(url: str, params: Params):
         headers=HEADERS,
     )
     return _response.json()
+
+
+def get_bulk_response(
+    url: str,
+    params: Params,
+    max_continuation: int = 10,
+):
+    response_list: List = []
+    if CONTINUATION not in params.dict().keys():
+        return get_response(url, params)
+
+    _continuation = None
+    for _ in range(max_continuation):
+        params.continuation = _continuation
+        _response = get_response(url, params)
+        response_list.append(_response)
+        if (
+            _response[CONTINUATION] == _continuation
+            or _response[CONTINUATION] is None
+            or CONTINUATION not in _response.keys()
+        ):
+            break
+        else:
+            _continuation = _response[CONTINUATION]
+    return response_list
