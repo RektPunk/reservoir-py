@@ -35,7 +35,7 @@ class CollectionsParams(Params):
     def id_contract_validator(cls, values):
         return conflict_validator(
             values,
-            keys=["id", "slug", "collectionSetId", "community", "contract", "name"],
+            keys=["id", "slug", "collectionsSetId", "community", "contract", "name"],
         )
 
 
