@@ -10,7 +10,7 @@ class ApiKey(Enum):
 
 
 HEADERS: Dict[str, str] = {"accept": "*/*", "x-api-key": ApiKey.RESERVIOR_API_KEY.value}
-
+CONTINUATION: str = "continuation"
 ACTIVITY_LIMIT_RANGE_INCLUDE_METADATA = {
     True: {
         "ge": 1,
