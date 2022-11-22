@@ -1,4 +1,4 @@
-from typing import Callable, List
+from typing import Callable, Any, List, Dict, Tuple
 import requests
 from data.activity.endpoint import ActivityEndpoint
 from data.attributes.endpoint import AttributesEndpoint
@@ -7,7 +7,7 @@ from utils.metadata.params import Params
 from utils.variables import HEADERS, CONTINUATION
 
 
-def _transform_url(url: str, params: Params):
+def _transform_url(url: str, params: Params) -> Tuple[str, Params]:
     if ActivityEndpoint.has_value(url):
         if url == ActivityEndpoint.TOKEN_ACTIVITY.value:
             url = url.format(params.token)
@@ -22,7 +22,7 @@ def _transform_url(url: str, params: Params):
     return url, params
 
 
-def get_response(url: str, params: Params):
+def get_response(url: str, params: Params) -> Dict[str, Any]:
     url, params = _transform_url(url, params)
     _response = requests.get(
         url=url,
@@ -36,7 +36,7 @@ def get_bulk_response(
     url: str,
     params: Params,
     max_continuation: int = 10,
-):
+) -> List[Dict[str, Any]]:
     response_list: List = []
     if CONTINUATION not in params.dict().keys():
         return get_response(url, params)
@@ -47,11 +47,10 @@ def get_bulk_response(
         _response = get_response(url, params)
         response_list.append(_response)
         if (
-            _response[CONTINUATION] == _continuation
-            or _response[CONTINUATION] is None
-            or CONTINUATION not in _response.keys()
+            _response.get(CONTINUATION) is None
+            or _response.get(CONTINUATION) == _continuation
         ):
             break
         else:
-            _continuation = _response[CONTINUATION]
+            _continuation = _response.get(CONTINUATION)
     return response_list
