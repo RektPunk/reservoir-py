@@ -25,6 +25,10 @@ from data.events import (
     CollectionFloorChangesParams,
     CollectionTopBidChangesParams,
 )
+from data.orders import (
+    OrdersEndpoint,
+    BidDistributionParams,
+)
 from data.sales import SalesEndpoint, SalesParams
 from utils.response import get_bulk_response
 
@@ -32,6 +36,7 @@ from utils.response import get_bulk_response
 TEST_COLLECTION = "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb"
 TEST_USER = "0xef764bac8a438e7e498c2e5fccf0f174c3e3f8db"
 TEST_TOKEN = "9998"
+
 
 all_activity_params = AllActivityParams()
 all_activity_response = get_bulk_response(
@@ -159,4 +164,13 @@ collection_top_bid_changes_params = CollectionTopBidChangesParams(
 collection_top_bid_changes_response = get_bulk_response(
     url=EventsEndpoint.COLLECTION_TOP_BID_CHANGES.value,
     params=collection_top_bid_changes_params,
+)
+
+bid_distribution_params = BidDistributionParams(
+    collection=TEST_COLLECTION,
+)
+
+bid_distribution_response = get_bulk_response(
+    url=OrdersEndpoint.BID_DISTRIBUTION.value,
+    params=bid_distribution_params,
 )
