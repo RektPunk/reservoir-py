@@ -9,6 +9,10 @@ class ApiKey(Enum):
     RESERVIOR_API_KEY: str = os.environ["RESERVIOR_API_KEY"]
 
 
+class StatusCode(int, Enum):
+    _200: int = 200
+
+
 HEADERS: Dict[str, str] = {"accept": "*/*", "x-api-key": ApiKey.RESERVIOR_API_KEY.value}
 CONTINUATION: str = "continuation"
 ACTIVITY_LIMIT_RANGE_INCLUDE_METADATA = {

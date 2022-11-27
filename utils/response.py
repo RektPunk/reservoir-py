@@ -3,8 +3,9 @@ import requests
 from data.activity.endpoint import ActivityEndpoint
 from data.attributes.endpoint import AttributesEndpoint
 from data.collections.endpoint import CollectionsEndpoint
+from data.orders.endpoint import OrdersEndpoint
 from utils.metadata.params import Params
-from utils.variables import HEADERS, CONTINUATION
+from utils.variables import HEADERS, CONTINUATION, StatusCode
 
 
 def _transform_url(url: str, params: Params) -> Tuple[str, Params]:
@@ -19,6 +20,10 @@ def _transform_url(url: str, params: Params) -> Tuple[str, Params]:
         if url == CollectionsEndpoint.USER_COLLECTIONS.value:
             url = url.format(params.user)
             params.user = None
+    elif OrdersEndpoint.has_value(url):
+        if url == OrdersEndpoint.BID_DISTRIBUTION.value:
+            url = url.format(params.collection)
+            params.collection = None
     return url, params
 
 
@@ -29,7 +34,10 @@ def get_response(url: str, params: Params) -> Dict[str, Any]:
         params=params,
         headers=HEADERS,
     )
-    return _response.json()
+    if _response.status_code == StatusCode._200.value:
+        return _response.json()
+    else:
+        raise Exception(f"status code: {_response.status_code}")
 
 
 def get_bulk_response(
