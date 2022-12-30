@@ -1,4 +1,4 @@
-from typing import Optional, List, Union
+from typing import List, Union
 from pydantic import conint, validator, root_validator
 from utils.metadata.params import Params
 from utils.enum_variables import ActivitySortByEnum, ActivityTypesEnum
@@ -13,7 +13,7 @@ from utils.validators import (
 class AllActivityParams(Params):
     includeMetadata: bool = False
     limit: conint(ge=1, le=1000) = 20
-    continuation: Optional[str] = None
+    continuation: str = None
 
 
 class CollectionActivityParams(Params):
@@ -22,7 +22,7 @@ class CollectionActivityParams(Params):
     community: str = None
     sortBy: str = ActivitySortByEnum.eventTimestamp.value
     includeMetadata: bool = True
-    continuation: Optional[str] = None
+    continuation: str = None
     limit: int = 20
 
     @validator("sortBy")
@@ -49,7 +49,7 @@ class UserActivityParams(Params):
     sortBy: str = ActivitySortByEnum.eventTimestamp.value
     includeMetadata: bool = True
     types: Union[str, List[str]] = ActivityTypesEnum.sale.value
-    continuation: Optional[str] = None
+    continuation: str = None
 
     @validator("users")
     def users_validator(cls, v):
@@ -77,7 +77,7 @@ class TokenActivityParams(Params):
     sortBy: str = ActivitySortByEnum.eventTimestamp.value
     includeMetadata: bool = True
     types: Union[str, List[str]] = ActivityTypesEnum.sale.value
-    continuation: Optional[str] = None
+    continuation: str = None
 
     @validator("sortBy")
     def sortby_validator(cls, v):

@@ -1,10 +1,7 @@
-from typing import Union, List
 from pydantic import conint, validator
 from utils.metadata.params import Params
 from utils.enum_variables import EventsSortDirectionEnum
-from utils.validators import (
-    has_value_validator,
-)
+from utils.validators import has_value_validator
 
 
 class AsksStatusChangesParams(Params):

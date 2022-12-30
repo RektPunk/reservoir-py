@@ -1,9 +1,10 @@
-from typing import Callable, Any, List, Dict, Tuple
+from typing import Any, List, Dict, Tuple
 import requests
 from data.activity.endpoint import ActivityEndpoint
 from data.attributes.endpoint import AttributesEndpoint
 from data.collections.endpoint import CollectionsEndpoint
 from data.orders.endpoint import OrdersEndpoint
+from data.owners.endpoint import OwnersEndpoint
 from utils.metadata.params import Params
 from utils.variables import HEADERS, CONTINUATION, StatusCode
 
@@ -24,6 +25,13 @@ def _transform_url(url: str, params: Params) -> Tuple[str, Params]:
         if url == OrdersEndpoint.BID_DISTRIBUTION.value:
             url = url.format(params.collection)
             params.collection = None
+    elif OwnersEndpoint.has_value(url):
+        if url == OwnersEndpoint.OWNERS_COLLECTION_DISTRIBUTION.value:
+            url = url.format(params.collection)
+            params.collection = None
+        elif url == OwnersEndpoint.OWNERS_COLLECTION_SET_DISTRIBUTION.value:
+            url = url.format(params.collectionsSetId)
+            params.collectionsSetId = None
     return url, params
 
 
